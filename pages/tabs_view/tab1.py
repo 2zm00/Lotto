@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 from matplotlib import font_manager
 import numpy as np
 
-from page3 import draw_lotto_numbers
+from pages.functions import draw_lotto_numbers
 
 
 
@@ -79,7 +79,7 @@ def display_current_numbers(lotto_instance, 최근회차, 전체기록):
     통계 = pd.DataFrame(통계)
 
     # 사용자 지정 폰트 로드
-    font_path = 'fonts/NotoSansKR-VariableFont_wght.ttf'  # 경로를 조정하세요
+    font_path = 'pages/fonts/NotoSansKR-VariableFont_wght.ttf'  # 경로를 조정하세요
     font_prop = font_manager.FontProperties(fname=font_path)
 
 

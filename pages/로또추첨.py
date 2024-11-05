@@ -1,15 +1,13 @@
-# main.py
+# 로또추첨.py
+
 import streamlit as st
 import pandas as pd
-from .functions.get_data import Lotto_class
-from tabs_view.tab1 import display_current_numbers 
-from tabs_view.tab2 import display_past_records    
-from tabs_view.tab3 import draw_number    
+from pages.functions.get_data import Lotto_class
 
 
-st.set_page_config(page_title="진연녹의 AI 로또 추첨기!!")
-
-
+from pages.tabs_view.tab1 import display_current_numbers 
+from pages.tabs_view.tab2 import display_past_records    
+from pages.tabs_view.tab3 import draw_number    
 
 
 
@@ -86,6 +84,26 @@ elif selected_option == "당첨 주소":
     # Google Maps iframe 사용
     st.markdown('<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3168.371067633137!2d126.97865241502782!3d37.56654197979855!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x357ca2ef8e8c5d61%3A0xf1de5e8d8e6de2c1!2sSeoul!5e0!3m2!1sen!2skr!4v1633124003205!5m2!1sen!2skr" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>', unsafe_allow_html=True)
     
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # # 탭 추가
 # tab1, tab2, tab3 ,tab4 = st.tabs(["당첨 번호", "과거 당첨 기록", "AI 로또 추첨기", "당첨 주소"])
