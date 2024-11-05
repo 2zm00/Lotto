@@ -1,7 +1,7 @@
 # main.py
 import streamlit as st
 import pandas as pd
-from functions.get_data import Lotto_class
+from .functions.get_data import Lotto_class
 from tabs_view.tab1 import display_current_numbers 
 from tabs_view.tab2 import display_past_records    
 from tabs_view.tab3 import draw_number    
