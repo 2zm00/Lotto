@@ -1,5 +1,11 @@
-streamlit
-pandas
-numpy
+beautifulsoup4
+joblib
+keras==3.6.0
+lxml
 matplotlib
+numpy
+pandas
 plotly
+scikit-learn==1.5.2
+streamlit
+tensorflow-cpu==2.18.0
