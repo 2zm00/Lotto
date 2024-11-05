@@ -3,7 +3,8 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.font_manager as fm
-#영록님께서 로컬 폰트 사용하셔서, 저는 다른 방식으로 폰트 사용해보는 방식으로 pyfont로 진행했습니다.
+import os
+
 
 
 class DashBoard():
@@ -46,10 +47,17 @@ class DashBoard():
         
     @staticmethod
     def set_korean_font():
-        # 나눔고딕 폰트 설정
-        plt.rcParams['font.family'] = 'NanumGothic'
-        plt.rcParams['axes.unicode_minus'] = False  # 마이너스 기호 깨짐 방지
-
+        # 폰트 경로 설정
+        font_path = os.path.join('pages', 'fonts', 'NotoSansKR-VariableFont_wght.ttf')
+        
+        # 폰트 등록
+        font_prop = fm.FontProperties(fname=font_path)
+        fm.fontManager.addfont(font_path)
+        
+        # matplotlib 기본 설정 업데이트
+        plt.rcParams['font.family'] = font_prop.get_name()
+        plt.rcParams['axes.unicode_minus'] = False
+        return font_prop
 
 
     def 데이터_보여주기(self, df):
@@ -70,6 +78,7 @@ class DashBoard():
         self.평균_추첨_횟수(df)
 
     def 연령대_그래프(self, df):
+        font_prop = self.set_korean_font()
         # 나이대별 그래프 제목 설정
         st.subheader("연령대 별 추첨 횟수")
 
@@ -89,16 +98,16 @@ class DashBoard():
 
 
         #연령대 그래프 레이블 제목설정
-        ax.set_title("연령대 별 추첨 횟수", fontsize=16)
-        ax.set_xlabel("연령대", fontsize=14)
-        ax.set_ylabel("추첨 횟수", fontsize=14)
+        ax.set_title("연령대 별 추첨 횟수", fontsize=16, fontproperties=font_prop)
+        ax.set_xlabel("연령대", fontsize=14, fontproperties=font_prop)
+        ax.set_ylabel("추첨 횟수", fontsize=14, fontproperties=font_prop)
 
         # 막대 위에 수치 표시
         for bar in bars:
             height = bar.get_height()
             ax.text(bar.get_x() + bar.get_width()/2, height,
                     f'{int(height)}',
-                    ha='center', va='bottom')
+                    ha='center', va='bottom', fontproperties=font_prop)
         
         #연령대 그래프 streamlit 표시
         st.pyplot(fig)
@@ -106,74 +115,89 @@ class DashBoard():
 
         
     def 성별_그래프(self, df):
+        font_prop = self.set_korean_font()
         st.subheader("성별 추첨 횟수")
         
         gender_data = df.groupby('gender')['draw_count'].sum()
-        
+        x = gender_data.index
+        y = gender_data.values
+        # 색 설정
+        colors = plt.cm.coolwarm(np.interp(y, (y.min(), y.max()), (0, 1)))
+
         fig, ax = plt.subplots(figsize=(8, 5))
-        bars = ax.bar(gender_data.index, gender_data.values, color=['blue', 'pink'])
+        bars = ax.bar(x,y, color=colors)
         
-        ax.set_title("성별 추첨 횟수", fontsize=16)
-        ax.set_xlabel("성별", fontsize=14)
-        ax.set_ylabel("추첨 횟수", fontsize=14)
+        ax.set_title("성별 추첨 횟수", fontsize=16, fontproperties=font_prop)
+        ax.set_xlabel("성별", fontsize=14, fontproperties=font_prop)
+        ax.set_ylabel("추첨 횟수", fontsize=14, fontproperties=font_prop)
         
         # 막대 위에 수치 표시
         for bar in bars:
             height = bar.get_height()
             ax.text(bar.get_x() + bar.get_width()/2, height,
                     f'{int(height)}',
-                    ha='center', va='bottom')
+                    ha='center', va='bottom', fontproperties=font_prop)
         
         st.pyplot(fig)
         plt.close()
         
     def 시군구_그래프(self, df):
-        st.subheader("시군구별 추첨 횟수")
+        font_prop = self.set_korean_font()
+        st.subheader("시군구 별 추첨 횟수")
         
         df['district'] = df['region'].apply(
             lambda x: x.split()[2] if len(x.split()) > 2 else x
         )
         district_data = df.groupby('district')['draw_count'].sum()
-        
+        x=district_data.index
+        y=district_data.values
+        # 색 설정
+        colors = plt.cm.coolwarm(np.interp(y, (y.min(), y.max()), (0, 1)))
+
         fig, ax = plt.subplots(figsize=(15, 6))
-        bars = ax.bar(district_data.index, district_data.values)
+        bars = ax.bar(x, y, color=colors)
         
-        ax.set_title("시군구별 추첨 횟수", fontsize=16)
-        ax.set_xlabel("시군구", fontsize=14)
-        ax.set_ylabel("추첨 횟수", fontsize=14)
-        plt.xticks(rotation=45, ha='right')
+        ax.set_title("시군구 별 추첨 횟수", fontsize=16, fontproperties=font_prop)
+        ax.set_xlabel("시군구", fontsize=14, fontproperties=font_prop)
+        ax.set_ylabel("추첨 횟수", fontsize=14, fontproperties=font_prop)
+        plt.xticks(rotation=45, ha='right', fontproperties=font_prop)
         
         # 막대 위에 수치 표시
         for bar in bars:
             height = bar.get_height()
             ax.text(bar.get_x() + bar.get_width()/2, height,
                     f'{int(height)}',
-                    ha='center', va='bottom')
+                    ha='center', va='bottom', fontproperties=font_prop)
         
         plt.tight_layout()
         st.pyplot(fig)
         plt.close()
 
     def 행정구역_그래프(self, df):
-        st.subheader("행정구역별 추첨 횟수")
+        font_prop = self.set_korean_font()
+        st.subheader("행정구역 별 추첨 횟수")
         
         df['city'] = df['region'].apply(lambda x: x.split()[0])
         city_data = df.groupby('city')['draw_count'].sum()
-        
+        x = city_data.index
+        y = city_data.values
+        # 색 설정
+        colors = plt.cm.coolwarm(np.interp(y, (y.min(), y.max()), (0, 1)))
+
         fig, ax = plt.subplots(figsize=(10, 6))
-        bars = ax.bar(city_data.index, city_data.values)
+        bars = ax.bar(x, y, color=colors)
         
-        ax.set_title("행정구역별 추첨 횟수", fontsize=16)
-        ax.set_xlabel("행정구역", fontsize=14)
-        ax.set_ylabel("추첨 횟수", fontsize=14)
-        plt.xticks(rotation=45, ha='right')
+        ax.set_title("행정구역 별 추첨 횟수", fontsize=16, fontproperties=font_prop)
+        ax.set_xlabel("행정구역", fontsize=14, fontproperties=font_prop)
+        ax.set_ylabel("추첨 횟수", fontsize=14, fontproperties=font_prop)
+        plt.xticks(rotation=45, ha='right', fontproperties=font_prop)
         
         # 막대 위에 수치 표시
         for bar in bars:
             height = bar.get_height()
             ax.text(bar.get_x() + bar.get_width()/2, height,
                     f'{int(height)}',
-                    ha='center', va='bottom')
+                    ha='center', va='bottom', fontproperties=font_prop)
         
         plt.tight_layout()
         st.pyplot(fig)
@@ -182,7 +206,7 @@ class DashBoard():
     def 평균_추첨_횟수(self, df):
         st.subheader("평균 추첨 횟수")
         avg_draw = df['draw_count'].mean()
-        st.metric("", f"{avg_draw:.2f}회")
+        st.metric("",""f"{avg_draw:.2f}회")
 
 
 
