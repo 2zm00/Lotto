@@ -1,10 +1,10 @@
 # main.py
 import streamlit as st
 import pandas as pd
-from page3.get_data import Lotto_class
-from my_html.tab1 import display_current_numbers 
-from my_html.tab2 import display_past_records    
-from my_html.tab3 import draw_number    
+from functions.get_data import Lotto_class
+from tabs_view.tab1 import display_current_numbers 
+from tabs_view.tab2 import display_past_records    
+from tabs_view.tab3 import draw_number    
 
 
 st.set_page_config(page_title="진연녹의 AI 로또 추첨기!!")

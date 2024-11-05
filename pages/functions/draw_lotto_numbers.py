@@ -3,11 +3,13 @@
 
 import pandas as pd
 import numpy as np
-from page3.get_data import Lotto_class
 from tensorflow import keras
 from keras.layers import LeakyReLU
 import joblib
 import streamlit as st
+
+
+# from functions.get_data import Lotto_class
 
 # 모델과 스케일러를 불러오는 함수
 @st.cache_resource
