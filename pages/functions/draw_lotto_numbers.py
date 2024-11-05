@@ -1,5 +1,7 @@
 #  pate3/draw_lotto_numbers.py
 
+# pages/functions/draw_lotto_numbers.py
+
 
 import pandas as pd
 import numpy as np
@@ -14,8 +16,8 @@ import streamlit as st
 # 모델과 스케일러를 불러오는 함수
 @st.cache_resource
 def load_model_and_scaler():
-    model = keras.models.load_model('model/ann_model.h5', custom_objects={'LeakyReLU': LeakyReLU})
-    scaler = joblib.load('model/scaler.save')
+    model = keras.models.load_model('pages/model/ann_model.h5', custom_objects={'LeakyReLU': LeakyReLU})
+    scaler = joblib.load('pages/model/scaler.save')
     return model, scaler
 
 # 모델과 스케일러 불러오기

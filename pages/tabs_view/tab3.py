@@ -1,6 +1,6 @@
 # my_html/tab3.py
 
-from page3 import draw_lotto_numbers
+from pages.functions import draw_lotto_numbers
 import streamlit as st
 
 # 색상 지정 함수

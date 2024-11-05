@@ -6,7 +6,7 @@ Created on Wed Oct 23 15:35:23 2024
 
 """
 
-# lotto.py
+# functions/get_data.py
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
