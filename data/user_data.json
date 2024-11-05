@@ -1,0 +1,45 @@
+{
+    "kim3266": {
+        "id": "kim3266",
+        "password": "asd1233",
+        "age": 25,
+        "gender": "남성",
+        "region": "서울특별시",
+        "city": "강남구",
+        "draw_count": 0,
+        "last_login_date": "2024-11-05",
+        "created_at": "2024-11-05 21:28:13",
+        "login_at": [
+            "2024-11-05 21:28:17",
+            "2024-11-05 21:28:26"
+        ]
+    },
+    "oh3266": {
+        "id": "oh3266",
+        "password": "asd1233",
+        "age": 67,
+        "gender": "남성",
+        "region": "서울특별시",
+        "city": "강남구",
+        "draw_count": 0,
+        "last_login_date": "2024-11-05",
+        "created_at": "2024-11-05 21:28:43",
+        "login_at": [
+            "2024-11-05 21:28:47"
+        ]
+    },
+    "admin": {
+        "id": "admin",
+        "password": "asd1233",
+        "age": 99,
+        "gender": "남성",
+        "region": "서울특별시",
+        "city": "강남구",
+        "draw_count": 0,
+        "last_login_date": "2024-11-05",
+        "created_at": "2024-11-05 21:29:29",
+        "login_at": [
+            "2024-11-05 21:29:34"
+        ]
+    }
+}

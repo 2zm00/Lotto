@@ -41,8 +41,8 @@ class Display:
             "제주특별자치도": ["제주시", "서귀포시"]
         }
     
-    @st.cache_data
-    def load_data(_self):
+    
+    def load_data(self):
         try:
             # JSON 파일을 딕셔너리 형태로 읽어오기
             with open('data/user_data.json', 'r', encoding='utf-8') as f:
@@ -50,12 +50,12 @@ class Display:
         except FileNotFoundError:
             st.session_state.users = {}  # 파일이 없다면 빈 딕셔너리로 초기화
   
-    @st.cache_data
-    def save_to_json(_self):
+    
+    def save_to_json(self):
         
         data = st.session_state.users
         with open('data/user_data.json', 'w', encoding='utf-8') as f:
-            json.dump(data, f, ensure_ascii=False, indent=2)
+            json.dump(data, f, ensure_ascii=False, indent=4)
     
     def navigate_to(self,current_page):
         st.session_state.page = current_page
@@ -121,7 +121,7 @@ class Display:
                 
                 st.success("회원가입이 완료되었습니다!")
                 self.navigate_to('login')
-
+    
     def display_login(self):
         st.title("로그인")
 
@@ -140,6 +140,7 @@ class Display:
                     login_at = current_datetime.strftime("%Y-%m-%d %H:%M:%S")
 
                     st.session_state.users[login_id]['login_at'].append(login_at)
+                    
                     self.save_to_json()
                     self.navigate_to("home")  # 홈 페이지로 이동
                     st.success("로그인 성공!")
