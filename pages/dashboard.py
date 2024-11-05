@@ -98,8 +98,6 @@ class DashBoard():
 
 
         #연령대 그래프 레이블 제목설정
-        ax.set_title("연령대 별 추첨 횟수", fontsize=16, fontproperties=font_prop)
-        ax.set_xlabel("연령대", fontsize=14, fontproperties=font_prop)
         ax.set_ylabel("추첨 횟수", fontsize=14, fontproperties=font_prop)
 
         # 막대 위에 수치 표시
@@ -127,8 +125,6 @@ class DashBoard():
         fig, ax = plt.subplots(figsize=(8, 5))
         bars = ax.bar(x,y, color=colors)
         
-        ax.set_title("성별 추첨 횟수", fontsize=16, fontproperties=font_prop)
-        ax.set_xlabel("성별", fontsize=14, fontproperties=font_prop)
         ax.set_ylabel("추첨 횟수", fontsize=14, fontproperties=font_prop)
         
         # 막대 위에 수치 표시
@@ -157,8 +153,6 @@ class DashBoard():
         fig, ax = plt.subplots(figsize=(15, 6))
         bars = ax.bar(x, y, color=colors)
         
-        ax.set_title("시군구 별 추첨 횟수", fontsize=16, fontproperties=font_prop)
-        ax.set_xlabel("시군구", fontsize=14, fontproperties=font_prop)
         ax.set_ylabel("추첨 횟수", fontsize=14, fontproperties=font_prop)
         plt.xticks(rotation=45, ha='right', fontproperties=font_prop)
         
@@ -187,8 +181,6 @@ class DashBoard():
         fig, ax = plt.subplots(figsize=(10, 6))
         bars = ax.bar(x, y, color=colors)
         
-        ax.set_title("행정구역 별 추첨 횟수", fontsize=16, fontproperties=font_prop)
-        ax.set_xlabel("행정구역", fontsize=14, fontproperties=font_prop)
         ax.set_ylabel("추첨 횟수", fontsize=14, fontproperties=font_prop)
         plt.xticks(rotation=45, ha='right', fontproperties=font_prop)
         
