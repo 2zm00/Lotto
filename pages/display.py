@@ -2,8 +2,8 @@ import streamlit as st
 import pandas as pd
 from datetime import datetime
 import json
-from functions.draw_lotto_numbers import draw_lotto_numbers
-from functions.get_data import Lotto_class
+from pages.functions.draw_lotto_numbers import draw_lotto_numbers
+from pages.functions.get_data import Lotto_class
 from collections import OrderedDict
 
 class Display:
