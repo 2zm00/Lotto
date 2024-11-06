@@ -35,13 +35,14 @@ def show_map():
         st.write(f"{prize_selection} 판매점 수: {len(display_data)}개")
         
         # 데이터프레임 출력 (모든 컬럼 표시)
-        st.dataframe(display_data[['name', 'address']])
+        st.dataframe(display_data[['name', 'address', 'lat', 'lng']])
             
         # 지도를 표시할 HTML 템플릿
         map_html = f"""
-            <div id="map" style="width:100%;height:600px;"></div>
-            <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey={kakao_key}"></script>
-            <script>
+        <div id="map" style="width:100%;height:600px;"></div>
+        <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey={kakao_key}&libraries=services"></script>
+        <script>
+            window.onload = function() {{
                 var container = document.getElementById('map');
                 var options = {{
                     center: new kakao.maps.LatLng(36.5, 127.5),
