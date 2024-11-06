@@ -39,10 +39,10 @@ def show_map():
             
         # 지도를 표시할 HTML 템플릿
         map_html = f"""
+        <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey={kakao_key}&libraries=services&autoload=false"></script>
         <div id="map" style="width:100%;height:600px;"></div>
-        <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey={kakao_key}&libraries=services"></script>
         <script>
-            window.onload = function() {{
+            kakao.maps.load(function() {{
                 var container = document.getElementById('map');
                 var options = {{
                     center: new kakao.maps.LatLng(36.5, 127.5),
