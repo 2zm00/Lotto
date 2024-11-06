@@ -14,19 +14,6 @@ import json
 from dotenv import load_dotenv
 import os
 
-# .env 파일에서 API 키 로드
-load_dotenv()
-# API 키 설정
-def get_api_key():
-    try:
-        # Streamlit Cloud에서 실행될 때
-        return st.secrets["KAKAO_REST_KEY"]
-    except:
-        # 로컬에서 실행될 때
-        load_dotenv()
-        return os.getenv('KAKAO_REST_KEY')
-
-KAKAO_REST_KEY = get_api_key()
 
 def clean_address(address):
     """주소 정제 함수"""
@@ -49,11 +36,12 @@ def clean_address(address):
     return address.strip()
 
 def get_coordinates(address):
+    time.sleep(1)
     """카카오맵 API로 주소를 좌표로 변환"""
     try:
         url = "https://dapi.kakao.com/v2/local/search/address.json"
         headers = {
-            "Authorization": f"KakaoAK {KAKAO_REST_KEY}"
+            "Authorization": f"KakaoAK {st.secrets['KAKAO_REST_KEY']}"
         }
         params = {"query": address}
         
@@ -143,6 +131,7 @@ def get_address(soup, 등위=1):
         '소재지': 'address'
     })
 
+@st.cache_data(ttl=3600) 
 def get_store_data(회차=1144):
     """당첨 판매점 데이터 조회"""
     soup = reqeusts_address(회차)
