@@ -8,7 +8,8 @@ Created on Mon Nov  4 20:37:50 2024
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
-
+from pathlib import Path
+import os
 
 def reqeusts_address(회차):
     
@@ -54,25 +55,22 @@ def get_address(soup,등위 = 1):
         rows.append(cols)
     
     # 데이터프레임 생성
-    return pd.DataFrame(rows, columns=headers)
+    df = pd.DataFrame(rows, columns=headers)
+    
+    # 인터넷 복권 판매점 제외
+    df = df[~df['소재지'].str.contains('동행복권', na=False)]
+    
+    # 필요한 컬럼만 선택하고 이름 변경
+    return df[['상호명', '소재지']].rename(columns={'상호명': 'name', '소재지': 'address'})
     
 
-회차 = 1144
-soup = reqeusts_address(회차)
-
-address1 = get_address(soup,등위 = 1)
-
-
-address2 = get_address(soup,등위 = 2)
-
-
-
-
-
-
-
-
-
-
-
-
+def get_store_data(회차=1144):
+    soup = reqeusts_address(회차)
+    address1 = get_address(soup, 등위=1)
+    address2 = get_address(soup, 등위=2)
+    
+    # 1등, 2등 구분을 위한 rank 컬럼 추가
+    address1['rank'] = 1
+    address2['rank'] = 2
+    
+    return address1, address2
