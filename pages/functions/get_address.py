@@ -4,7 +4,7 @@ Created on Mon Nov  4 20:37:50 2024
 
 @author: Rogio
 """
-
+import streamlit as st
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
@@ -16,7 +16,7 @@ import os
 
 # .env 파일에서 API 키 로드
 load_dotenv()
-KAKAO_REST_KEY = os.getenv('KAKAO_REST_KEY')
+KAKAO_REST_KEY = st.secret('KAKAO_REST_KEY')
 
 def clean_address(address):
     """주소 정제 함수"""
