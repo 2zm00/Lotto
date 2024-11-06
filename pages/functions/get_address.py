@@ -16,7 +16,17 @@ import os
 
 # .env 파일에서 API 키 로드
 load_dotenv()
-KAKAO_REST_KEY = st.secret('KAKAO_REST_KEY')
+# API 키 설정
+def get_api_key():
+    try:
+        # Streamlit Cloud에서 실행될 때
+        return st.secrets["KAKAO_REST_KEY"]
+    except:
+        # 로컬에서 실행될 때
+        load_dotenv()
+        return os.getenv('KAKAO_REST_KEY')
+
+KAKAO_REST_KEY = get_api_key()
 
 def clean_address(address):
     """주소 정제 함수"""

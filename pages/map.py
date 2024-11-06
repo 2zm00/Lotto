@@ -10,6 +10,13 @@ load_dotenv()
 def show_map():
     st.title("로또 당첨 판매점 지도")
     
+
+    # API 키 확인
+    kakao_key = st.secrets["KAKAO_KEY"]  # os.getenv 대신 st.secrets 사용
+    if not kakao_key:
+        st.error("카카오맵 API 키가 설정되어 있지 않습니다.")
+        return
+    
     try:
         # 데이터 가져오기
         address1, address2 = get_store_data()
@@ -38,7 +45,7 @@ def show_map():
         # 지도를 표시할 HTML 템플릿
         map_html = f"""
             <div id="map" style="width:100%;height:600px;"></div>
-            <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey={st.secrets('KAKAO_KEY')}"></script>
+            <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey={kakao_key}"></script>
             <script>
                 var container = document.getElementById('map');
                 var options = {{
