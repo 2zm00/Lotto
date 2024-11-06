@@ -26,7 +26,7 @@ import os
 #         load_dotenv()
 #         return os.getenv('KAKAO_REST_KEY')
 
-KAKAO_REST_KEY = "60e0d7f939da04fcdb20bd983cb70fb2"
+KAKAO_REST_KEY = "64c064fd7e9124df18a5b734a151a7cd"
 
 def clean_address(address):
     """주소 정제 함수"""

@@ -2,7 +2,7 @@ import streamlit as st
 import os
 import pandas as pd
 from dotenv import load_dotenv
-from pages.functions.get_address2 import get_store_data
+from pages.functions.get_address import get_store_data
 
 # .env 파일 로드
 load_dotenv()
