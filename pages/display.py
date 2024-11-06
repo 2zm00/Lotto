@@ -55,6 +55,16 @@ class Display:
     
 
     def display_signup(self):
+        col1, col2 = st.columns([5,1])
+        with col1:
+            st.write("")
+        
+        with col2:
+            if st.button("HOME"):
+                self.navigate_to('home')
+
+            
+
         st.title("회원가입")
         id = st.text_input("아이디를 입력하세요:")
         password = st.text_input("비밀번호를 입력하세요:")
@@ -105,6 +115,13 @@ class Display:
                 self.navigate_to('login')
     
     def display_login(self):
+        col1, col2 = st.columns([5,1])
+        with col1:
+            st.write("")
+        
+        with col2:
+            if st.button("HOME"):
+                self.navigate_to('home')
         st.title("로그인")
 
         login_id = st.text_input("아이디를 입력하세요:")
