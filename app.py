@@ -17,5 +17,7 @@ sys.path.append(os.path.join(current_dir, 'functions'))
 
 
 st.title("메인페이지")
+st.page_link("pages/display.py", label="Home", icon="🏠")
+
 
 
