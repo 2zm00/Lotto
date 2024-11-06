@@ -9,7 +9,6 @@ plotly
 scikit-learn==1.5.2
 streamlit
 tensorflow-cpu==2.18.0
-<<<<<<< HEAD
 folium
 streamlit-folium
 python-dotenv==1.0.0
