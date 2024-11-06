@@ -4,15 +4,21 @@ import pandas as pd
 from dotenv import load_dotenv
 from pages.functions.get_address import get_store_data
 
-# .env 파일 로드
-load_dotenv()
+def get_kakao_key():
+    """카카오맵 API 키 가져오기"""
+    try:
+        # Streamlit Cloud에서 실행될 때
+        return st.secrets["KAKAO_KEY"]
+    except:
+        # 로컬에서 실행될 때
+        load_dotenv()
+        return os.getenv('KAKAO_KEY')
 
 def show_map():
     st.title("로또 당첨 판매점 지도")
-    
 
     # API 키 확인
-    kakao_key = st.secrets["KAKAO_KEY"]  # os.getenv 대신 st.secrets 사용
+    kakao_key = get_kakao_key()
     if not kakao_key:
         st.error("카카오맵 API 키가 설정되어 있지 않습니다.")
         return
