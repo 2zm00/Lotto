@@ -39,10 +39,10 @@ def show_map():
             
         # 지도를 표시할 HTML 템플릿
         map_html = f"""
-        <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey={kakao_key}&libraries=services&autoload=false"></script>
         <div id="map" style="width:100%;height:600px;"></div>
+        <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey={kakao_key}"></script>
         <script>
-            kakao.maps.load(function() {{
+            window.onload = function() {{
                 var container = document.getElementById('map');
                 var options = {{
                     center: new kakao.maps.LatLng(36.5, 127.5),
@@ -52,20 +52,18 @@ def show_map():
                 var map = new kakao.maps.Map(container, options);
                 var bounds = new kakao.maps.LatLngBounds();
                 
-                
-                // 데이터를 직접 사용하여 마커 생성
                 var positions = {display_data.to_dict('records')};
                 
                 positions.forEach(function(store) {{
-                    if (store.lat && store.lng) {{  // 좌표가 있는 경우에만 마커 생성
+                    if (store.lat && store.lng) {{
                         var coords = new kakao.maps.LatLng(store.lat, store.lng);
                         bounds.extend(coords);
                         
                         var marker = new kakao.maps.Marker({{
                             map: map,
                             position: coords,
-                            title: store.name,
-                            }});
+                            title: store.name
+                        }});
                         
                         var infowindow = new kakao.maps.InfoWindow({{
                             content: '<div style="padding:10px;width:220px;text-align:center;">' +
@@ -82,12 +80,12 @@ def show_map():
                     }}
                 }});
                 
-                // 모든 마커가 보이도록 지도 범위 조정
                 if (!bounds.isEmpty()) {{
                     map.setBounds(bounds);
                 }}
-            </script>
-        """
+            }};
+        </script>
+    """
         
         
         # 지도 표시
