@@ -3,7 +3,7 @@ import os
 import pandas as pd
 from dotenv import load_dotenv
 from pages.functions.get_address import get_store_data
-
+import streamlit.components.v1 as components
 
 def show_map():
     st.title("로또 당첨 판매점 지도")
@@ -89,7 +89,7 @@ def show_map():
         
         
         # 지도 표시
-        st.components.v1.html(map_html, height=600)
+        components.v1.html(map_html, height=600)
         
     except Exception as e:
         st.error(f"에러 발생: {str(e)}")
