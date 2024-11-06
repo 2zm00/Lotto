@@ -55,9 +55,9 @@ def display_lotto_numbers(numbers):
     
     st.markdown(lotto_balls_html, unsafe_allow_html=True)
 
-def draw_number(최근회차, 전체기록,picked_num, n = 1 ):
+def draw_number(최근회차, 전체기록,fixed_number, n = 1 ):
     for _ in range(n):  # n을 사용하여 지정된 횟수만큼 반복
-        drawed_numbers = draw_lotto_numbers.draw_lotto_numbers(최근회차, 전체기록 , picked_num)
+        drawed_numbers = draw_lotto_numbers.draw_lotto_numbers(최근회차, 전체기록 , fixed_number)
         display_lotto_numbers(drawed_numbers.iloc[0].to_dict())
         
         

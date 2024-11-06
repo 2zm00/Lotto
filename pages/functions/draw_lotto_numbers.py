@@ -76,6 +76,7 @@ def analyze_number(df, draw_number, number) -> dict:
         "최근 4회차 출현 횟수": recent_4_count,
     }
 
+
 def draw_lotto_numbers(최근회차, 전체기록, set_num = None) -> pd.DataFrame:
     results = []
     for number in range(1, 46):
