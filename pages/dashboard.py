@@ -217,8 +217,7 @@ class DashBoard():
         st.title("관리자 대시보드")
         user_data=self.load_data()
         df = pd.DataFrame(user_data.values())
-
-        a = self.데이터_불러오기()
+        
         if df is not None:
             self.데이터_보여주기(df)
 
