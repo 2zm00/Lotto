@@ -4,6 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.font_manager as fm
 import os
+import json
 
 
 
@@ -44,6 +45,12 @@ class DashBoard():
         except FileNotFoundError:
             st.error("데이터 파일을 찾을 수 없습니다.")
             return None
+        
+    def load_data(self):
+        with open('data/user_data.json', 'r', encoding='utf-8') as file:
+            data = json.load(file)
+        return data
+
         
     @staticmethod
     def set_korean_font():
@@ -208,8 +215,10 @@ class DashBoard():
         #     return
             
         st.title("관리자 대시보드")
+        user_data=self.load_data()
+        df = pd.DataFrame(user_data.values())
 
-        df = self.데이터_불러오기()
+        a = self.데이터_불러오기()
         if df is not None:
             self.데이터_보여주기(df)
 
