@@ -1,23 +1,18 @@
 import streamlit as st
 import pandas as pd
-import numpy as np
 from datetime import datetime
-import requests
-from bs4 import BeautifulSoup
 import json
+from pages.functions.draw_lotto_numbers import draw_lotto_numbers
+from pages.functions.get_data import Lotto_class
+from collections import OrderedDict
 
 class Display:
     def __init__(self):
         self.columns = ['id', 'password', 'age', 'gender', 'region', 'city', 'draw_count', 'last_login_date', 'created_at', 'login_at']
-        
-        
         if 'users' not in st.session_state:
             st.session_state.users = pd.DataFrame(columns=self.columns)
-        
         # if 'login_user' not in st.session_state:
         #     st.session_state.login_user = None
-        
-
         self.regions = {
             "서울특별시": ["강남구", "강동구", "강북구", "관악구", "광진구", "구로구", "금천구", "노원구", "동대문구", "동작구", "마포구",
                           "서대문구", "서초구", "성동구", "성북구", "송파구", "양천구", "은평구", "중구", "중랑구", "용산구"],
@@ -41,51 +36,48 @@ class Display:
             "제주특별자치도": ["제주시", "서귀포시"]
         }
     
-    @st.cache_data
-    def load_data(_self):
+    def load_data(self, filename):
         try:
-            # JSON 파일을 딕셔너리 형태로 읽어오기
-            with open('data/user_data.json', 'r', encoding='utf-8') as f:
-                st.session_state.users = json.load(f)
+            with open(filename, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+            return data
         except FileNotFoundError:
-            st.session_state.users = {}  # 파일이 없다면 빈 딕셔너리로 초기화
+            return {}  # 파일이 없으면 빈 딕셔너리 리턴
   
-    @st.cache_data
-    def save_to_json(_self):
+    def save_to_json(self):
         
         data = st.session_state.users
         with open('data/user_data.json', 'w', encoding='utf-8') as f:
-            json.dump(data, f, ensure_ascii=False, indent=2)
+            json.dump(data, f, ensure_ascii=False, indent=4)
     
     def navigate_to(self,current_page):
         st.session_state.page = current_page
     
 
     def display_signup(self):
+        col1, col2 = st.columns([5,1])
+        with col1:
+            st.write("")
+        
+        with col2:
+            if st.button("HOME"):
+                self.navigate_to('home')
+
+            
+
         st.title("회원가입")
-
-
         id = st.text_input("아이디를 입력하세요:")
         password = st.text_input("비밀번호를 입력하세요:")
         age = st.number_input("나이를 입력하세요:", min_value=1, max_value=100,value=None)
         gender = st.selectbox("성별을 선택하세요:", ["남성", "여성", "기타"])
         col1, col2 = st.columns(2)
-        
+
         with col1:
             region = st.selectbox("거주 지역(도)을 선택하세요:", list(self.regions.keys()))
         
         with col2:
             city = st.selectbox("거주 도시를 선택하세요:", self.regions[region])
-
-        # last_login_date =datetime.now().date()
         
-        # login_at=[]
-        # current_datetime = datetime.now()
-
-        # created_at = current_datetime.strftime("%Y-%m-%d %H:%M:%S")
-        # login_at.append(current_datetime.strftime("%Y-%m-%d %H:%M:%S"))
-        
-
         if st.button("회원가입"):
             if id in st.session_state.users:
                 st.error("이미 사용 중인 아이디입니다. 다른 아이디를 선택해주세요.")
@@ -121,8 +113,15 @@ class Display:
                 
                 st.success("회원가입이 완료되었습니다!")
                 self.navigate_to('login')
-
+    
     def display_login(self):
+        col1, col2 = st.columns([5,1])
+        with col1:
+            st.write("")
+        
+        with col2:
+            if st.button("HOME"):
+                self.navigate_to('home')
         st.title("로그인")
 
         login_id = st.text_input("아이디를 입력하세요:")
@@ -140,6 +139,7 @@ class Display:
                     login_at = current_datetime.strftime("%Y-%m-%d %H:%M:%S")
 
                     st.session_state.users[login_id]['login_at'].append(login_at)
+                    
                     self.save_to_json()
                     self.navigate_to("home")  # 홈 페이지로 이동
                     st.success("로그인 성공!")
@@ -151,7 +151,6 @@ class Display:
         if st.button("회원가입 페이지로 이동"):
             self.navigate_to('signup')
     
-
     st.markdown("""
         <style>
             .lotto-ball {
@@ -176,9 +175,12 @@ class Display:
 
     # 색상 지정 함수
     def get_color(self,number):
-        
-        if 1 <= number <= 10:
-            return "#f9c74f"  # 노란색
+        if number==0:
+            return "#000000" #검은색
+        elif number==1:
+            return "#ffd700" #황금색
+        elif 1 < number <= 10:
+            return "#ff7f00"  # 주황색
         elif 11 <= number <= 20:
             return "#007bff"  # 파란색
         elif 21 <= number <= 30:
@@ -192,31 +194,24 @@ class Display:
 
     def display_lotto_numbers(self,numbers):
         lotto_balls_html = '<div class="lotto-container">'
-        for value in numbers:
-            color = self.get_color(value)
-            lotto_balls_html += f'<div class="lotto-ball" style="background-color: {color};">{value}</div>'
-        lotto_balls_html += '</div>'
-        st.markdown(lotto_balls_html, unsafe_allow_html=True)
-    
+        if len(numbers)<7:
 
-
+            for value in numbers:
+                color = self.get_color(value)
+                lotto_balls_html += f'<div class="lotto-ball" style="background-color: {color};">{value}</div>'
+            lotto_balls_html += '</div>'
+            st.markdown(lotto_balls_html, unsafe_allow_html=True)
+        else:
+            
+            for i in range(6):
+                color = self.get_color(numbers[i+6])
+                lotto_balls_html += f'<div class="lotto-ball" style="background-color: {color};">{numbers[i]}</div>'
+            lotto_balls_html += '</div>'
+            st.markdown(lotto_balls_html, unsafe_allow_html=True)
 
     def display_home(self):
-        lotto_data = pd.read_csv('lotto_dict.csv')
+        lotto_dict =self.load_data('data/lotto_dict.json') 
 
-        # 딕셔너리로 변환
-        lotto_dict = {}
-        for _, row in lotto_data.iterrows():
-            round_name = row['round']
-            numbers = row[['num1', 'num2', 'num3', 'num4', 'num5', 'num6']].tolist()
-            if round_name not in lotto_dict:
-                lotto_dict[round_name] = []
-            lotto_dict[round_name].append(numbers)
-
-        # 딕셔너리 출력
-        
-
-        
         # '''
         # 메인화면 우측 맨위 로그인버튼과 회원가입버튼
         # - 로그인버튼클릭
@@ -237,11 +232,7 @@ class Display:
         #    로그인기록은 데이트타임으로 받기
         #                     streamlit run pages\display.py
         
-
         # 로그인이 되어 있다면 매 회차 10회 추첨 결과를 화면에출력
-
-
-
 
         # 오른쪽 위에 버튼을 배치하기 위한 열 설정
         col1, col2, col3 = st.columns([4, 1, 1])  # 각 열의 비율 설정
@@ -258,8 +249,7 @@ class Display:
             #누르면 로그인페이지로 이동
             elif st.button("로그인"):
                 self.navigate_to('login')
-                
-
+            
         with col3:
             if 'login_user' in st.session_state:
                 if st.button("로그 아웃"):
@@ -268,29 +258,63 @@ class Display:
             #누르면회원가입페이지로이동
             elif st.button("회원 가입"):
                 self.navigate_to('signup')
-                
-            
-                
+                           
         st.title("로또 번호 추첨 페이지")
-        
-        for round,nums in lotto_dict.items():
-            st.write(f"{round}회차 당첨번호")
-            for num in nums:
-                self.display_lotto_numbers(num)
-               
-               
+        reversed_data = OrderedDict(reversed(list(lotto_dict.items())))
+        reversed_data={key:reversed_data[key] for key in list(reversed_data.keys())[:5]}
+        for round,nums in reversed_data.items():
             
-
+            st.write(f"{round} 예측번호")
             
-
-    
+            for num in list(nums.values()):
+                
+                self.display_lotto_numbers(num)               
+            
 if __name__ == "__main__":
+    lotto_instance = Lotto_class()
+    display = Display()
+    # 전체 기록을 캐시하는 함수
+    @st.cache_data
+    def load_all_records():
+        최근회차 = lotto_instance.최근회차()
+        전체기록 = pd.DataFrame(lotto_instance.download_records(1, 최근회차)).transpose()
+        전체기록.index = 전체기록.index.str.replace('회차', '').astype(int)
+        return 전체기록
     
+    최근회차 = lotto_instance.최근회차()
+    lotto_dict=display.load_data('data/lotto_dict.json')
+    if f'{최근회차+1}'==list(lotto_dict.keys())[-1][0:4]:
+        pass
+    else:
+
+        전체기록 = load_all_records()
+        회차기록=전체기록.values.tolist()
+
+        new_exam={}
+        
+        for i in range(10):
+            lotto_nums=list(list(lotto_dict.values())[-1].values())[i]
+            result = [1 if item in 회차기록[0][:6] else 0 for item in lotto_nums]
+            lotto_nums=lotto_nums+result
+            new_exam[f'ex{i+1}']=lotto_nums
+        
+        lotto_dict[f"{최근회차}회차"]=new_exam
+
+        new_exam={}
+        for i in range(1,11):
+            drawed_numbers=draw_lotto_numbers(최근회차,전체기록)
+            drawed_list = drawed_numbers.values.tolist()
+            new_exam[f'ex{i}']=drawed_list[0]
     
+        lotto_dict[f"{최근회차+1}회차"]=new_exam
+
+        with open('data/lotto_dict.json', 'w', encoding='utf-8') as f:
+            json.dump(lotto_dict, f, ensure_ascii=False)
+
     if 'page' not in st.session_state:
         st.session_state.page = "home"  # 기본 페이지는 회원가입
-    display = Display()
-    display.load_data()
+    
+    st.session_state.users=display.load_data('data/user_data.json')
 
     if st.session_state.page == "signup":
         display.display_signup()
