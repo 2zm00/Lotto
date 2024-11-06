@@ -89,7 +89,7 @@ def show_map():
         
         
         # 지도 표시
-        components.v1.html(map_html, height=600)
+        components.html(map_html, height=600)
         
     except Exception as e:
         st.error(f"에러 발생: {str(e)}")
