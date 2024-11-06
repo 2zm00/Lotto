@@ -8,8 +8,18 @@ def show_map():
     st.title("로또 당첨 판매점 지도")
     
     try:
-        # 데이터 가져오기
-        address1, address2 = get_store_data()
+        # 회차 선택 (최신 회차를 기본값으로 설정)
+        current_round = 1144  # 현재 최신 회차
+        selected_round = st.number_input(
+            "회차 선택", 
+            min_value=1, 
+            max_value=current_round, 
+            value=current_round,
+            step=1
+        )
+        
+        # 선택된 회차의 데이터 가져오기
+        address1, address2 = get_store_data(회차=selected_round)
         
         # 1등, 2등 선택 라디오 버튼
         prize_selection = st.radio(
@@ -26,7 +36,7 @@ def show_map():
             display_data = pd.concat([address1, address2])
 
         # 전체 데이터 출력
-        st.write(f"{prize_selection} 판매점 수: {len(display_data)}개")
+        st.write(f"{selected_round}회차 {prize_selection} 판매점 수: {len(display_data)}개")
         
         # 데이터프레임 출력
         st.dataframe(display_data[['name', 'address']])
@@ -37,7 +47,7 @@ def show_map():
         # 마커 추가
         for _, row in display_data.iterrows():
             if pd.notna(row['lat']) and pd.notna(row['lng']):
-                # 마커 색상 설정 (1등: 빨간색, 2등: 파란색)
+                # 마커 색상 설정
                 color = 'red' if row['rank'] == 1 else 'blue'
                 
                 # 팝업 내용 생성
