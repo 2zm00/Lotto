@@ -3,7 +3,6 @@
 import streamlit as st
 import pandas as pd
 import json
-from display import st.session_state.login_user
 from pages.functions.get_data import Lotto_class
 
 
