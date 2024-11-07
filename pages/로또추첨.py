@@ -57,9 +57,9 @@ st.title(f'최근 회차 : {최근회차}')
 
 
 # Selectbox로 메뉴 선택
-selected_option = st.selectbox("메뉴 선택", ["AI 로또 추첨기", "최근 당첨 통계", "과거 당첨 기록", "당첨 주소"])
+selected_option = st.selectbox("메뉴 선택", ["최근 당첨 통계","AI 로또 추첨기", "과거 당첨 기록", "당첨 주소"])
 
-if selected_option == "당첨 번호":
+if selected_option == "최근 당첨 통계":
     display_current_numbers(lotto_instance, 최근회차, 전체기록)
 
 elif selected_option == "과거 당첨 기록":
