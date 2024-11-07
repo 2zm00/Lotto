@@ -2,6 +2,8 @@
 
 import streamlit as st
 import pandas as pd
+import json
+from display import st.session_state.login_user
 from pages.functions.get_data import Lotto_class
 
 
@@ -22,6 +24,20 @@ def load_all_records():
     전체기록 = pd.DataFrame(lotto_instance.download_records(1, 최근회차)).transpose()
     전체기록.index = 전체기록.index.str.replace('회차', '').astype(int)
     return 전체기록
+
+def save_to_json(self):
+        
+        data = st.session_state.users
+        with open('data/user_data.json', 'w', encoding='utf-8') as f:
+            json.dump(data, f, ensure_ascii=False, indent=4)
+
+def load_data(self):
+    try:
+        with open('data/user_data.json', 'r', encoding='utf-8') as f:
+            data = json.load(f)
+        return data
+    except FileNotFoundError:
+        return {}  # 파일이 없으면 빈 딕셔너리 리턴
 
 # 전체 기록을 한 번만 불러오기
 전체기록 = load_all_records()
@@ -73,6 +89,7 @@ elif selected_option == "AI 로또 추첨기":
             picked_num = [int(num.strip()) for num in input_numbers.split(',') if num.strip().isdigit()]
         else:
             picked_num = None  # 입력이 없으면 빈 리스트
+        draw_count=load_data('data/user_data.json')
         
         draw_number(최근회차, 전체기록, picked_num, num_draws)  # 입력받은 숫자를 draw_number 함수에 전달
 
