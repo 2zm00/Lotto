@@ -3,7 +3,7 @@
 import streamlit as st
 import pandas as pd
 import json
-
+from app import Display
 
 
 from pages.functions.get_data import Lotto_class
@@ -19,7 +19,8 @@ from streamlit_folium import folium_static
 #%%
 # Lotto_class의 인스턴스 생성
 lotto_instance = Lotto_class()
-
+user=Display()
+login_user=user.get_session_state()
 # 전체 기록을 캐시하는 함수
 @st.cache_data
 def load_all_records():
@@ -28,13 +29,13 @@ def load_all_records():
     전체기록.index = 전체기록.index.str.replace('회차', '').astype(int)
     return 전체기록
 
-def save_to_json(self):
+def save_to_json(data):
         
-        data = st.session_state.users
+        
         with open('data/user_data.json', 'w', encoding='utf-8') as f:
             json.dump(data, f, ensure_ascii=False, indent=4)
 
-def load_data(self):
+def load_data():
     try:
         with open('data/user_data.json', 'r', encoding='utf-8') as f:
             data = json.load(f)
@@ -121,6 +122,10 @@ elif selected_option == "AI 로또 추첨기":
             excluded_numbers = [int(num.strip()) for num in excluded_numbers_input.split(',') if num.strip().isdigit()]
         else:
             excluded_numbers = None  # 입력이 없으면 빈 리스트
+        
+        user_data=load_data()
+        user_data[login_user]['draw_count']+=num_draws
+        save_to_json(user_data)
         
 
         draw_number(최근회차, 전체기록,fixed_number,excluded_numbers, num_draws )
