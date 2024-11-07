@@ -77,7 +77,7 @@ def analyze_number(df, draw_number, number) -> dict:
     }
 
 
-def draw_lotto_numbers(최근회차, 전체기록, set_num = None) -> pd.DataFrame:
+def draw_lotto_numbers(최근회차, 전체기록,fixed_numbers = None, excluded_numbers = None) -> pd.DataFrame:
     results = []
     for number in range(1, 46):
         record = pd.DataFrame([analyze_number(전체기록, 최근회차, number)])
@@ -102,30 +102,40 @@ def draw_lotto_numbers(최근회차, 전체기록, set_num = None) -> pd.DataFra
     
     results['확률'] = results['확률'] / results['확률'].sum()
     
-    if set_num is not None:
-        remaining_count = 6 - len(set_num)  # 필요한 추가 번호의 개수
-        available_numbers = results[~results['번호'].isin(set_num)]  # 고정 번호를 제외한 번호들
-        # 확률 합이 1인지 확인하고 조정
-        available_numbers['확률'] = available_numbers['확률'] / available_numbers['확률'].sum()
-
+    if fixed_numbers is None:
+        fixed_numbers = []
+    if excluded_numbers is None:
+        excluded_numbers = []
+    
+    # 고정 번호를 제외한 번호들 필터링
+    available_numbers = results[~results['번호'].isin(fixed_numbers)]  # 고정 번호를 제외
+    
+    # 제외 번호도 제외
+    available_numbers = available_numbers[~available_numbers['번호'].isin(excluded_numbers)]
+    
+    # 확률 합이 1인지 확인하고 조정
+    available_numbers['확률'] = available_numbers['확률'] / available_numbers['확률'].sum()
+    
+    # 필요한 추가 번호 개수
+    remaining_count = 6 - len(fixed_numbers)  # 고정 번호가 이미 선택되었으므로 나머지 번호 개수
+    
+    # 고정 번호와 제외 번호를 제외한 번호들에서 랜덤으로 선택
+    if len(available_numbers) > 0:
         selected_numbers = np.random.choice(
             available_numbers['번호'],
             size=remaining_count,
             replace=False,
             p=available_numbers['확률']
         )
-        # 고정 번호와 추가 선택된 번호를 합치고 정렬
-        final_numbers = np.sort(np.concatenate((set_num, selected_numbers)))
+        # 고정 번호와 선택된 번호들을 합침
+        final_numbers = np.sort(np.concatenate((fixed_numbers, selected_numbers)))
     else:
-        # 고정 번호가 없을 때는 6개의 번호를 확률에 따라 무작위로 선택
-        selected_numbers = np.random.choice(results['번호'], size=6, replace=False, p=results['확률'])
-        final_numbers = np.sort(selected_numbers)
-    
+        # 고정 번호와 제외 번호를 제외한 번호가 없을 경우 오류 처리 또는 기본 처리 추가
+        final_numbers = np.array(fixed_numbers)  # 예시로 고정 번호만 반환 (필요에 따라 조정)
+
     # 결과를 데이터프레임으로 정리
     df_numbers = pd.DataFrame([final_numbers], columns=[1, 2, 3, 4, 5, 6])
-        
-
-
+    
     return df_numbers
 
 
