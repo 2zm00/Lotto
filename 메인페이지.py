@@ -1,3 +1,10 @@
+# app.py
+
+
+
+
+import sys
+import os
 import streamlit as st
 import pandas as pd
 from datetime import datetime
@@ -5,6 +12,16 @@ import json
 from pages.functions.draw_lotto_numbers import draw_lotto_numbers
 from pages.functions.get_data import Lotto_class
 from collections import OrderedDict
+
+
+# 현재 파일의 경로를 기반으로 functions 경로 추가
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'functions')))
+
+
+# 현재 작업 디렉터리를 기반으로 functions 경로 추가
+current_dir = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(os.path.join(current_dir, 'functions'))
+
 
 class Display:
     def __init__(self):
@@ -52,6 +69,11 @@ class Display:
     
     def navigate_to(self,current_page):
         st.session_state.page = current_page
+    
+
+    def get_session_state(self):
+
+        return st.session_state.login_user
     
 
     def display_signup(self):
@@ -235,13 +257,30 @@ class Display:
         # 로그인이 되어 있다면 매 회차 10회 추첨 결과를 화면에출력
 
         # 오른쪽 위에 버튼을 배치하기 위한 열 설정
-        col1, col2, col3 = st.columns([4, 1, 1])  # 각 열의 비율 설정
+        col1, col2, col3, col4, col5 = st.columns([1, 1, 2, 1, 1])  # 각 열의 비율 설정
+
+        with col1:
+            if 'login_user' in st.session_state:
+                st.page_link("pages/로또추첨.py", label="로또추첨", icon="🎱")
+            else:
+                # 빈 공간을 만들어 오른쪽 열에 버튼을 배치
+                st.write("")  # 빈 공간을 사용
+        with col2:
+            if 'login_user' in st.session_state:
+                if st.session_state.login_user=="admin":
+                 st.page_link("pages/통계.py", label="통계", icon="📊")
+                else:
+                  # 빈 공간을 만들어 오른쪽 열에 버튼을 배치
+                   st.write("")  # 빈 공간을 사용
 
         with col1:
             # 빈 공간을 만들어 오른쪽 열에 버튼을 배치
             st.write("")  # 빈 공간을 사용
+            
+            
 
-        with col2:
+
+        with col4:
             if 'login_user' in st.session_state:
                 st.write(f"id: {st.session_state.login_user}")
                 
@@ -250,7 +289,7 @@ class Display:
             elif st.button("로그인"):
                 self.navigate_to('login')
             
-        with col3:
+        with col5:
             if 'login_user' in st.session_state:
                 if st.button("로그 아웃"):
                     del st.session_state.login_user
@@ -283,6 +322,7 @@ if __name__ == "__main__":
     
     최근회차 = lotto_instance.최근회차()
     lotto_dict=display.load_data('data/lotto_dict.json')
+
     if f'{최근회차+1}'==list(lotto_dict.keys())[-1][0:4]:
         pass
     else:
@@ -322,4 +362,3 @@ if __name__ == "__main__":
         display.display_login()
     elif st.session_state.page == "home":
         display.display_home()
-
