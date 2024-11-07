@@ -6,6 +6,12 @@ from pages.functions.get_address import get_store_data
 
 def show_map():
     st.title("로또 당첨 판매점 지도")
+
+    # API 키 확인
+    kakao_key = get_kakao_key()
+    if not kakao_key:
+        st.error("카카오맵 API 키가 설정되어 있지 않습니다.")
+        return
     
     try:
         # 회차 선택 (최신 회차를 기본값으로 설정)

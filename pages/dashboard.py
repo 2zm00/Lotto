@@ -4,6 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.font_manager as fm
 import os
+import json
 
 
 
@@ -44,6 +45,12 @@ class DashBoard():
         except FileNotFoundError:
             st.error("데이터 파일을 찾을 수 없습니다.")
             return None
+        
+    def load_data(self):
+        with open('data/user_data.json', 'r', encoding='utf-8') as file:
+            data = json.load(file)
+        return data
+
         
     @staticmethod
     def set_korean_font():
@@ -98,8 +105,6 @@ class DashBoard():
 
 
         #연령대 그래프 레이블 제목설정
-        ax.set_title("연령대 별 추첨 횟수", fontsize=16, fontproperties=font_prop)
-        ax.set_xlabel("연령대", fontsize=14, fontproperties=font_prop)
         ax.set_ylabel("추첨 횟수", fontsize=14, fontproperties=font_prop)
 
         # 막대 위에 수치 표시
@@ -127,8 +132,6 @@ class DashBoard():
         fig, ax = plt.subplots(figsize=(8, 5))
         bars = ax.bar(x,y, color=colors)
         
-        ax.set_title("성별 추첨 횟수", fontsize=16, fontproperties=font_prop)
-        ax.set_xlabel("성별", fontsize=14, fontproperties=font_prop)
         ax.set_ylabel("추첨 횟수", fontsize=14, fontproperties=font_prop)
         
         # 막대 위에 수치 표시
@@ -157,8 +160,6 @@ class DashBoard():
         fig, ax = plt.subplots(figsize=(15, 6))
         bars = ax.bar(x, y, color=colors)
         
-        ax.set_title("시군구 별 추첨 횟수", fontsize=16, fontproperties=font_prop)
-        ax.set_xlabel("시군구", fontsize=14, fontproperties=font_prop)
         ax.set_ylabel("추첨 횟수", fontsize=14, fontproperties=font_prop)
         plt.xticks(rotation=45, ha='right', fontproperties=font_prop)
         
@@ -187,8 +188,6 @@ class DashBoard():
         fig, ax = plt.subplots(figsize=(10, 6))
         bars = ax.bar(x, y, color=colors)
         
-        ax.set_title("행정구역 별 추첨 횟수", fontsize=16, fontproperties=font_prop)
-        ax.set_xlabel("행정구역", fontsize=14, fontproperties=font_prop)
         ax.set_ylabel("추첨 횟수", fontsize=14, fontproperties=font_prop)
         plt.xticks(rotation=45, ha='right', fontproperties=font_prop)
         
@@ -216,8 +215,10 @@ class DashBoard():
         #     return
             
         st.title("관리자 대시보드")
+        user_data=self.load_data()
+        df = pd.DataFrame(user_data.values())
 
-        df = self.데이터_불러오기()
+        a = self.데이터_불러오기()
         if df is not None:
             self.데이터_보여주기(df)
 
