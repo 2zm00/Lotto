@@ -2,11 +2,8 @@
 
 import streamlit as st
 import pandas as pd
-import streamlit.components.v1 as components
-import urllib.parse
 import folium
 from streamlit_folium import folium_static
-import streamlit as st
 
 
 from pages.functions.get_data import Lotto_class
