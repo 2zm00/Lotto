@@ -268,7 +268,7 @@ class Display:
         with col2:
             if 'login_user' in st.session_state:
                 if st.session_state.login_user=="admin":
-                 st.page_link("pages/dashboard.py", label="통계", icon="📊")
+                 st.page_link("pages/통계.py", label="통계", icon="📊")
                 else:
                   # 빈 공간을 만들어 오른쪽 열에 버튼을 배치
                    st.write("")  # 빈 공간을 사용
