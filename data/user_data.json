@@ -6,7 +6,7 @@
         "gender": "남성",
         "region": "서울특별시",
         "city": "강남구",
-        "draw_count": 0,
+        "draw_count": 2,
         "last_login_date": "2024-11-05",
         "created_at": "2024-11-05 21:28:13",
         "login_at": [
@@ -21,7 +21,7 @@
         "gender": "남성",
         "region": "서울특별시",
         "city": "강남구",
-        "draw_count": 0,
+        "draw_count": 3,
         "last_login_date": "2024-11-05",
         "created_at": "2024-11-05 21:28:43",
         "login_at": [
@@ -35,12 +35,13 @@
         "gender": "남성",
         "region": "서울특별시",
         "city": "강남구",
-        "draw_count": 0,
+        "draw_count": 5,
         "last_login_date": "2024-11-05",
         "created_at": "2024-11-05 21:29:29",
         "login_at": [
             "2024-11-05 21:29:34",
-            "2024-11-06 18:01:24"
+            "2024-11-06 18:01:24",
+            "2024-11-07 11:36:56"
         ]
     },
     "mun3266": {
@@ -50,14 +51,15 @@
         "gender": "남성",
         "region": "서울특별시",
         "city": "강남구",
-        "draw_count": 0,
+        "draw_count": 8,
         "last_login_date": "2024-11-06",
         "created_at": "2024-11-06 14:18:45",
         "login_at": [
             "2024-11-06 14:18:51",
             "2024-11-06 14:39:30",
             "2024-11-06 17:58:28",
-            "2024-11-06 18:00:35"
+            "2024-11-06 18:00:35",
+            "2024-11-07 11:33:41"
         ]
     },
     "q3266": {
@@ -67,7 +69,7 @@
         "gender": "남성",
         "region": "서울특별시",
         "city": "강남구",
-        "draw_count": 0,
+        "draw_count": 11,
         "last_login_date": "2024-11-06",
         "created_at": "2024-11-06 14:20:14",
         "login_at": [
@@ -95,7 +97,7 @@
         "gender": "남성",
         "region": "서울특별시",
         "city": "강남구",
-        "draw_count": 0,
+        "draw_count": 3,
         "last_login_date": "2024-11-06",
         "created_at": "2024-11-06 14:34:49",
         "login_at": [
@@ -109,7 +111,7 @@
         "gender": "남성",
         "region": "서울특별시",
         "city": "강남구",
-        "draw_count": 0,
+        "draw_count": 2,
         "last_login_date": "2024-11-06",
         "created_at": "2024-11-06 17:36:46",
         "login_at": [
@@ -123,7 +125,7 @@
         "gender": "남성",
         "region": "서울특별시",
         "city": "강남구",
-        "draw_count": 0,
+        "draw_count": 1,
         "last_login_date": "2024-11-07",
         "created_at": "2024-11-07 10:45:43",
         "login_at": [
@@ -137,7 +139,7 @@
         "gender": "남성",
         "region": "서울특별시",
         "city": "강남구",
-        "draw_count": 0,
+        "draw_count": 78,
         "last_login_date": "2024-11-07",
         "created_at": "2024-11-07 10:47:53",
         "login_at": [

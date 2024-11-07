@@ -71,6 +71,11 @@ class Display:
         st.session_state.page = current_page
     
 
+    def get_session_state(self):
+
+        return st.session_state.login_user
+    
+
     def display_signup(self):
         col1, col2 = st.columns([5,1])
         with col1:
