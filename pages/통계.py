@@ -148,10 +148,7 @@ class DashBoard():
         font_prop = self.set_korean_font()
         st.subheader("시군구 별 추첨 횟수")
         
-        df['district'] = df['region'].apply(
-            lambda x: x.split()[2] if len(x.split()) > 2 else x
-        )
-        district_data = df.groupby('district')['draw_count'].sum()
+        district_data = df.groupby('city')['draw_count'].sum()
         x=district_data.index
         y=district_data.values
         # 색 설정
@@ -178,8 +175,8 @@ class DashBoard():
         font_prop = self.set_korean_font()
         st.subheader("행정구역 별 추첨 횟수")
         
-        df['city'] = df['region'].apply(lambda x: x.split()[0])
-        city_data = df.groupby('city')['draw_count'].sum()
+        df['administrative_region'] = df['region'].apply(lambda x: x.split()[0])
+        city_data = df.groupby('administrative_region')['draw_count'].sum()
         x = city_data.index
         y = city_data.values
         # 색 설정
