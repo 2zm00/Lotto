@@ -3,7 +3,7 @@
 import streamlit as st
 import pandas as pd
 import json
-from app import Display
+from 메인페이지 import Display
 
 
 from pages.functions.get_data import Lotto_class
